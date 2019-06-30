@@ -4,8 +4,8 @@ CLASS lcl_gameoflife DEFINITION.
 
   PUBLIC SECTION.
     CONSTANTS:
-      cv_rows TYPE i VALUE 10,
-      cv_cols TYPE i VALUE 10.
+      cv_rows TYPE i VALUE 12,
+      cv_cols TYPE i VALUE 24.
 
     TYPES:
       BEGIN OF gtys_cell,
@@ -40,9 +40,15 @@ ENDCLASS.
 CLASS lcl_output DEFINITION.
   PUBLIC SECTION.
     METHODS:
-      draw
+      constructor,
+      display
         IMPORTING
-          it_playfield TYPE lcl_gameoflife=>gtys_cell.
+          it_playfield TYPE lcl_gameoflife=>gtyt_playfield.
+
+  PRIVATE SECTION.
+    DATA:
+      lo_salv TYPE REF TO cl_salv_table,
+      lr_output_playfield TYPE REF TO data.
 
 ENDCLASS.
 

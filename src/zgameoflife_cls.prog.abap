@@ -1,13 +1,14 @@
 CLASS lcl_gameoflife IMPLEMENTATION.
 
   METHOD main.
-*    DATA(lo_gol) = NEW lcl_gameoflife( ).
-*    DATA(lo_output) = NEW lcl_output( ).
-*
-*    DO 2 TIMES.
-*      lo_gol->do_iteration( ).
-*      lo_output->display( lo_gol->gt_playfield ).
-*    ENDDO.
+    DATA(lo_gol) = NEW lcl_gameoflife( ).
+    DATA(lo_output) = NEW lcl_output( ).
+
+    DO 4 TIMES.
+      lo_gol->do_iteration( ).
+    ENDDO.
+
+    lo_output->display( lo_gol->gt_playfield ).
   ENDMETHOD.
 
   METHOD constructor.
