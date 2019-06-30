@@ -1,8 +1,17 @@
-CLASS lcl_output IMPLEMENTATION.
+CLASS lcl_output_grid DEFINITION
+    INHERITING FROM lcl_output.
+  PUBLIC SECTION.
+    METHODS:
+      display REDEFINITION.
 
-  METHOD constructor.
+  PROTECTED SECTION.
+    DATA:
+      lo_salv             TYPE REF TO cl_salv_table,
+      lr_output_playfield TYPE REF TO data.
 
-  ENDMETHOD.
+ENDCLASS.
+
+CLASS lcl_output_grid IMPLEMENTATION.
 
   METHOD display.
     DATA:

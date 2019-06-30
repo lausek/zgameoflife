@@ -1,14 +1,20 @@
 CLASS lcl_gameoflife IMPLEMENTATION.
 
   METHOD main.
-    DATA(lo_gol) = NEW lcl_gameoflife( ).
-    DATA(lo_output) = NEW lcl_output( ).
+    go_gameoflife = NEW lcl_gameoflife( ).
+    go_output = NEW lcl_output_quick( ).
 
     DO 4 TIMES.
-      lo_gol->do_iteration( ).
+      go_gameoflife->do_iteration( ).
     ENDDO.
 
-    lo_output->display( lo_gol->gt_playfield ).
+    go_output->display( go_gameoflife->gt_playfield ).
+  ENDMETHOD.
+
+  METHOD update.
+    ASSERT go_gameoflife IS BOUND AND go_output IS BOUND.
+    go_gameoflife->do_iteration( ).
+    go_output->display( go_gameoflife->gt_playfield ).
   ENDMETHOD.
 
   METHOD constructor.
