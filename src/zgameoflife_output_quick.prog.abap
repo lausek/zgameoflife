@@ -16,8 +16,11 @@ CLASS lcl_output_quick IMPLEMENTATION.
     FORMAT HOTSPOT ON.
     WRITE 'DO ITERATION' COLOR = col_total.
     FORMAT HOTSPOT OFF.
-    WRITE '| AUTO'. WRITE gv_auto_on AS CHECKBOX.
+    WRITE: '|', 'AUTO' COLOR = col_total, gv_auto_on AS CHECKBOX.
     NEW-LINE.
+    mac_write_hr.
+    ADD 1 TO lv_header_offset.
+
     DATA(lv_prev_linno) = sy-linno.
 
     LOOP AT it_playfield
@@ -26,7 +29,7 @@ CLASS lcl_output_quick IMPLEMENTATION.
       WRITE AT <ls_cell>-col(*) <ls_cell>-alive NO-GAP.
     ENDLOOP.
 
-    IF gv_auto_on = abap_true.
+    IF lcl_gameoflife=>gv_auto_on = abap_true.
       DATA lv_task TYPE string.
       CALL FUNCTION 'C14Z_WAIT_N_SECONDS' STARTING NEW TASK lv_task
         PERFORMING trigger_update ON END OF TASK.

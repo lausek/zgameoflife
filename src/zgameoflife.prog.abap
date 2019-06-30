@@ -1,5 +1,9 @@
 REPORT zgameoflife NO STANDARD PAGE HEADING.
 
+DEFINE mac_write_hr.
+  WRITE '-------------------------------------------------------'. NEW-LINE.
+END-OF-DEFINITION.
+
 DEFINE mac_write_header.
   FORMAT COLOR COL_BACKGROUND.
   WRITE '   ______                     ____  ______    _ ____   '. NEW-LINE.
@@ -7,7 +11,7 @@ DEFINE mac_write_header.
   WRITE ' / / __/ __ `/ __ `__ \/ _ \/ / / / /_/ /   / / /_/ _ \'. NEW-LINE.
   WRITE '/ /_/ / /_/ / / / / / /  __/ /_/ / __/ /___/ / __/  __/'. NEW-LINE.
   WRITE '\____/\__,_/_/ /_/ /_/\___/\____/_/ /_____/_/_/  \___/ '. NEW-LINE.
-  WRITE '-------------------------------------------------------'. NEW-LINE.
+  mac_write_hr.
   WRITE '~~ by lausek |'.
   DATA(lv_header_offset) = 8.
 END-OF-DEFINITION.
@@ -19,8 +23,8 @@ CLASS lcl_gameoflife DEFINITION.
 
   PUBLIC SECTION.
     CONSTANTS:
-      cv_rows TYPE i VALUE 12,
-      cv_cols TYPE i VALUE 24.
+      cv_rows TYPE i VALUE 22,
+      cv_cols TYPE i VALUE 70.
 
     TYPES:
       BEGIN OF gtys_cell,
