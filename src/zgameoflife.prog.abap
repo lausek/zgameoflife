@@ -12,6 +12,7 @@ DEFINE mac_write_header.
   DATA(lv_header_offset) = 8.
 END-OF-DEFINITION.
 
+CLASS lcl_initializer DEFINITION DEFERRED.
 CLASS lcl_output DEFINITION DEFERRED.
 
 CLASS lcl_gameoflife DEFINITION.
@@ -42,7 +43,9 @@ CLASS lcl_gameoflife DEFINITION.
       update.
 
     METHODS:
-      constructor,
+      constructor
+        IMPORTING
+          io_initializer TYPE REF TO lcl_initializer OPTIONAL,
       is_cell_alive
         IMPORTING
                   iv_row          TYPE i

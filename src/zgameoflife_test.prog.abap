@@ -17,12 +17,12 @@ CLASS ltcl_test IMPLEMENTATION.
   METHOD count_neighbours.
     cl_abap_unit_assert=>assert_equals(
      exp = 3
-     act = NEW lcl_gameoflife( )->count_neighbours( iv_row = 3 iv_col = 2 )
+     act = NEW lcl_gameoflife( NEW lcl_test_initializer( ) )->count_neighbours( iv_row = 3 iv_col = 2 )
     ).
   ENDMETHOD.
 
   METHOD test_born.
-    DATA(lo_gol) = NEW lcl_gameoflife( ).
+    DATA(lo_gol) = NEW lcl_gameoflife( NEW lcl_test_initializer( )  ).
     lo_gol->do_iteration( ).
     cl_abap_unit_assert=>assert_equals(
      exp = abap_true
@@ -31,7 +31,7 @@ CLASS ltcl_test IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD test_die_loneliness.
-    DATA(lo_gol) = NEW lcl_gameoflife( ).
+    DATA(lo_gol) = NEW lcl_gameoflife( NEW lcl_test_initializer( )  ).
     lo_gol->do_iteration( ).
     cl_abap_unit_assert=>assert_equals(
      exp = abap_false
@@ -40,7 +40,7 @@ CLASS ltcl_test IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD test_die_overpopulation.
-    DATA(lo_gol) = NEW lcl_gameoflife( ).
+    DATA(lo_gol) = NEW lcl_gameoflife( NEW lcl_test_initializer( ) ).
     lo_gol->do_iteration( ).
     cl_abap_unit_assert=>assert_equals(
      exp = abap_false
@@ -49,7 +49,7 @@ CLASS ltcl_test IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD test_live.
-    DATA(lo_gol) = NEW lcl_gameoflife( ).
+    DATA(lo_gol) = NEW lcl_gameoflife( NEW lcl_test_initializer( )  ).
     lo_gol->do_iteration( ).
     cl_abap_unit_assert=>assert_equals(
      exp = abap_true

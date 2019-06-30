@@ -1,7 +1,51 @@
+CLASS lcl_initializer DEFINITION.
+  PUBLIC SECTION.
+    METHODS:
+      initialize
+        CHANGING
+          ct_playfield TYPE lcl_gameoflife=>gtyt_playfield.
+
+ENDCLASS.
+
+CLASS lcl_initializer IMPLEMENTATION.
+  METHOD initialize.
+    DATA(lo_rand) = cl_abap_random=>create( seed = CONV #( sy-uzeit ) ).
+    LOOP AT ct_playfield
+      ASSIGNING FIELD-SYMBOL(<ls_cell>).
+      <ls_cell>-alive = boolc( '0.5' < lo_rand->decfloat16( ) ).
+    ENDLOOP.
+  ENDMETHOD.
+ENDCLASS.
+
+CLASS lcl_test_initializer DEFINITION
+  INHERITING FROM lcl_initializer.
+  PUBLIC SECTION.
+    METHODS:
+      initialize REDEFINITION.
+
+ENDCLASS.
+
+CLASS lcl_test_initializer IMPLEMENTATION.
+  METHOD initialize.
+    DEFINE mac_set_alive.
+      ct_playfield[ row = &1 col = &2 ]-alive = abap_true.
+    END-OF-DEFINITION.
+
+    mac_set_alive 2 1.
+    mac_set_alive 1 4.
+    mac_set_alive 3 2.
+    mac_set_alive 4: 2, 3.
+    mac_set_alive 5 1.
+    mac_set_alive 6: 2, 3, 4.
+    mac_set_alive 7: 2, 3, 4.
+    mac_set_alive 8: 2, 3, 4.
+  ENDMETHOD.
+ENDCLASS.
+
 CLASS lcl_gameoflife IMPLEMENTATION.
 
   METHOD main.
-    go_gameoflife = NEW lcl_gameoflife( ).
+    go_gameoflife = NEW lcl_gameoflife( NEW lcl_initializer( ) ).
     go_output = NEW lcl_output_quick( ).
 
     DO 4 TIMES.
@@ -29,19 +73,9 @@ CLASS lcl_gameoflife IMPLEMENTATION.
         ) TO gt_playfield.
       ENDDO.
     ENDDO.
-
-    DEFINE mac_set_alive.
-      gt_playfield[ row = &1 col = &2 ]-alive = abap_true.
-    END-OF-DEFINITION.
-
-    mac_set_alive 2 1.
-    mac_set_alive 1 4.
-    mac_set_alive 3 2.
-    mac_set_alive 4: 2, 3.
-    mac_set_alive 5 1.
-    mac_set_alive 6: 2, 3, 4.
-    mac_set_alive 7: 2, 3, 4.
-    mac_set_alive 8: 2, 3, 4.
+    IF io_initializer IS SUPPLIED.
+      io_initializer->initialize( CHANGING ct_playfield = gt_playfield ).
+    ENDIF.
   ENDMETHOD.
 
   METHOD count_neighbours.
